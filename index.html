@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Power-Core GYM</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  background:linear-gradient(rgba(15,23,42,.85),rgba(15,23,42,.85)),
+  url("https://images.unsplash.com/photo-1599058917212-d750089bc07a?auto=format&fit=crop&w=1600&q=80");
+  background-size:cover;
+  background-attachment:fixed;
+  color:white;
+}
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px 40px;
+  background:rgba(2,6,23,.95);
+  position:sticky;
+  top:0;
+}
+.logo{font-size:22px;font-weight:700}
+.logo span{color:#ef4444}
+nav a{color:white;text-decoration:none;margin-left:20px}
+nav a:hover{color:#ef4444}
+
+/* Header buttons */
+nav .header-btn{
+  margin-left:15px;
+  padding:6px 12px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  background:#22c55e;
+  color:white;
+  font-weight:500;
+  transition:0.3s;
+}
+nav .header-btn:hover{
+  background:#16a34a;
+}
+nav .header-btn.share{
+  background:#3b82f6;
+}
+nav .header-btn.share:hover{
+  background:#2563eb;
+}
+
+.section{padding:70px 10%}
+h1{text-align:center}
+
+.buttons{
+  display:flex;justify-content:center;gap:15px;flex-wrap:wrap;
+}
+.buttons button{
+  padding:10px 22px;border:none;border-radius:25px;
+  background:#1e293b;color:white;cursor:pointer;
+}
+.buttons button.active{background:#ef4444}
+
+.video-box{max-width:900px;margin:30px auto;border-radius:15px;overflow:hidden}
+video{width:100%}
+
+.content,.trainer-card,.booking{
+  background:rgba(30,41,59,.85);
+  padding:25px;border-radius:18px;margin-bottom:30px;
+}
+
+.trainers{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:25px;
+}
+.trainer-card h3{color:#ef4444}
+
+.booking input,.booking select{
+  width:100%;padding:12px;margin-bottom:12px;border:none;border-radius:10px;
+}
+.booking button{
+  width:100%;padding:14px;border:none;border-radius:20px;
+  background:#ef4444;color:white;cursor:pointer;
+  margin-bottom:10px;
+}
+
+.slots{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:10px;margin-bottom:15px;
+}
+.slots button{
+  padding:10px;border:none;border-radius:10px;
+  background:#1e293b;color:white;cursor:pointer;
+}
+.slots button.active{background:#ef4444}
+
+footer{
+  background:rgba(2,6,23,.95);
+  padding:40px 10%;
+  color:#94a3b8;
+}
+
+footer h3{
+  margin-bottom:10px;
+}
+footer p{
+  margin:5px 0;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">🏋️ <span>Power-Core</span> GYM</div>
+  <nav>
+    <a href="#workout">Workout</a>
+    <a href="#trainers">Trainers</a>
+    <a href="#booking">Booking</a>
+    <button class="header-btn" onclick="goTop()">Home</button>
+    <button class="header-btn share" onclick="shareWebsite()">Share</button>
+  </nav>
+</header>
+
+<section id="workout" class="section">
+<h1>Gym Workout Guide</h1>
+<div class="buttons">
+  <button class="active" onclick="changeWorkout('chest',this)">Chest</button>
+  <button onclick="changeWorkout('back',this)">Back</button>
+  <button onclick="changeWorkout('legs',this)">Legs</button>
+  <button onclick="changeWorkout('shoulders',this)">Shoulders</button>
+  <button onclick="changeWorkout('arms',this)">Arms</button>
+</div>
+<div class="video-box">
+  <video id="workoutVideo" controls autoplay muted></video>
+</div>
+<div class="content" id="workoutContent"></div>
+</section>
+
+<section id="trainers" class="section">
+<h1>Our Trainers</h1>
+<div class="trainers">
+  <div class="trainer-card"><h3>Dv Patel</h3><p>Chest Trainer<br><br> 3000 / per 3 month</p></div>
+  <div class="trainer-card"><h3>Suresh Patel</h3><p>Back Trainer<br><br> 2500 / per 3 month</p></div>
+  <div class="trainer-card"><h3>Rahul Verma</h3><p>Legs Trainer<br><br> 5000 / per 3 month</p></div>
+  <div class="trainer-card"><h3>Vishv Patel</h3><p>Shoulders Trainer<br><br> 2800 / per 3 month</p></div>
+  <div class="trainer-card"><h3>Rj Rank</h3><p>Arms Trainer<br><br> 4000 / per 3 month</p></div>
+</div>
+</section>
+
+<section id="booking" class="section">
+<h1>Book Your Training</h1>
+<div class="booking" id="bookingForm">
+  <input id="name" placeholder="Name">
+  <input id="email" placeholder="Email (auto @gmail.com)">
+  <input id="mobile" placeholder="Mobile">
+  <input id="dob" type="date">
+  <input id="weight" placeholder="Weight (kg)">
+  <input id="height" placeholder="Height (cm)">
+  <input id="address" placeholder="Address">
+
+  <label>Select Timing Slot</label>
+  <div class="slots">
+    <button type="button" onclick="selectSlot(this)">5–6 AM</button>
+    <button type="button" onclick="selectSlot(this)">6–7 AM</button>
+    <button type="button" onclick="selectSlot(this)">7–8 AM</button>
+    <button type="button" onclick="selectSlot(this)">6–7 PM</button>
+    <button type="button" onclick="selectSlot(this)">7–8 PM</button>
+  </div>
+
+  <select id="trainer">
+    <option>Select Trainer</option>
+    <option>Dv Patel</option>
+    <option>Suresh Patel</option>
+    <option>Rahul Verma</option>
+    <option>Vishv Patel</option>
+    <option>Rj Rank</option>
+  </select>
+
+  <button type="button" onclick="openQR()">Proceed to Payment</button>
+</div>
+</section>
+
+<!-- QR PAGE -->
+<section class="section" id="qrPage" style="display:none">
+<h1>Payment & Confirmation</h1>
+
+<div class="booking" style="text-align:center">
+
+  <!-- DETAILS FIRST -->
+  <div style="text-align:left;background:rgba(15,23,42,.7);padding:20px;border-radius:15px;margin-bottom:20px">
+    <h3 style="color:#ef4444">Your Booking Details</h3>
+    <p id="summaryText"></p>
+  </div>
+
+  <!-- QR SECOND -->
+  <img src="i1.png" height="150">
+  <div style="margin-top:15px">
+    <img src="i2.png" height="40">
+    <img src="i3.png" height="40">
+    <img src="i4.png" height="40">
+  </div>
+  <p>Show payment receipt at gym desk</p>
+
+  <!-- TOP BUTTON LAST -->
+  <button onclick="goTop()" style="margin-top:20px;background:#22c55e">
+    ⬆ Go to Top
+  </button>
+</div>
+</section>
+
+<footer>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;text-align:left">
+    
+    <!-- About Company -->
+    <div>
+      <h3 style="color:#ef4444">About Company</h3>
+      <p>Power-Core GYM is dedicated to providing world-class fitness training with professional trainers and modern equipment to help you achieve your goals.</p>
+    </div>
+
+    <!-- Address -->
+    <div>
+      <h3 style="color:#ef4444">Address</h3>
+      <p>Ranuja temple behind,<br>Ramranuja -1,<br>Kothariya Main Road,<br>Rajkot - 360002</p>
+    </div>
+
+    <!-- Timing -->
+    <div>
+      <h3 style="color:#ef4444">Timing</h3>
+      <p>5:00 AM - 8:00 PM</p>
+    </div>
+
+    <!-- Contact -->
+    <div>
+      <h3 style="color:#ef4444">Contact</h3>
+      <p>Phone: +91 8849586698<br>Email: Powercore23@gmail.com</p>
+    </div>
+
+    <!-- Owner -->
+    <div>
+      <h3 style="color:#ef4444">Owner</h3>
+      <p>Dhruv AshvinBhai Bhanderi</p>
+    </div>
+
+  </div>
+
+  <div style="text-align:center;margin-top:20px;color:#94a3b8">
+    © 2025 Power-Core GYM. All Rights Reserved.
+  </div>
+</footer>
+
+<script>
+const workoutVideo=document.getElementById("workoutVideo");
+const workoutContent=document.getElementById("workoutContent");
+
+const data={
+ chest:{
+   video:"https://www.shutterstock.com/shutterstock/videos/3887767627/preview/stock-footage-gym-workout-butterfly-exercise-back-view-of-a-middle-aged-caucasian-man-trains-chest-in-the-gym.webm",
+   content:"<h2>Chest Workout</h2><ul><li>Bench Press</li><li>Incline Press</li></ul>"
+ },
+ back:{
+   video:"https://www.shutterstock.com/shutterstock/videos/3471739299/preview/stock-footage-with-a-focus-on-upper-body-strength-a-muscular-man-with-sculpted-back-muscles-pulls-himself-up-on.webm",
+   content:"<h2>Back Workout</h2><ul><li>Pull-ups</li><li>Deadlift</li></ul>"
+ },
+ legs:{
+   video:"https://www.shutterstock.com/shutterstock/videos/3783942433/preview/stock-footage-man-works-out-on-leg-press-machine-driving-foot-plate-to-engage-quadriceps-and-glutes-wearing.webm",
+   content:"<h2>Leg Workout</h2><ul><li>Squats</li><li>Lunges</li></ul>"
+ },
+ shoulders:{
+   video:"https://www.shutterstock.com/shutterstock/videos/3887754863/preview/stock-footage-gym-workout-bench-press-middle-aged-sporty-man-exercising-on-crossover-at-gym-for-arm-chest-and.webm",
+   content:"<h2>Shoulder Workout</h2><ul><li>Shoulder Press</li><li>Lateral Raises</li></ul>"
+ },
+ arms:{
+   video:"https://www.shutterstock.com/shutterstock/videos/3754158825/preview/stock-footage-sportsman-doing-workout-indoors-muscular-shirtless-athlete-is-lifting-dumbbells-in-hands-at-sports.webm",
+   content:"<h2>Arm Workout</h2><ul><li>Biceps</li><li>Triceps</li></ul>"
+ }
+};
+
+function changeWorkout(type,btn){
+ document.querySelectorAll(".buttons button").forEach(b=>b.classList.remove("active"));
+ btn.classList.add("active");
+ workoutVideo.src=data[type].video;
+ workoutContent.innerHTML=data[type].content;
+}
+changeWorkout("chest",document.querySelector(".buttons button"));
+
+let selectedSlot="";
+function selectSlot(btn){
+ document.querySelectorAll(".slots button").forEach(b=>b.classList.remove("active"));
+ btn.classList.add("active");
+ selectedSlot=btn.innerText;
+}
+
+function openQR(){
+ if(!selectedSlot){alert("Select time slot");return;}
+
+ const name=document.getElementById("name").value;
+ let email=document.getElementById("email").value;
+ if(!email.includes("@")) email += "@gmail.com"; // auto-append
+ const mobile=document.getElementById("mobile").value;
+ const dob=document.getElementById("dob").value;
+ const weight=document.getElementById("weight").value;
+ const height=document.getElementById("height").value;
+ const address=document.getElementById("address").value;
+ const trainer=document.getElementById("trainer").value;
+
+ document.getElementById("bookingForm").style.display="none";
+ document.getElementById("qrPage").style.display="block";
+
+ document.getElementById("summaryText").innerHTML=`
+ <b>Name:</b> ${name}<br>
+ <b>Email:</b> ${email}<br>
+ <b>Mobile:</b> ${mobile}<br>
+ <b>DOB:</b> ${dob}<br>
+ <b>Weight:</b> ${weight} kg<br>
+ <b>Height:</b> ${height} cm<br>
+ <b>Address:</b> ${address}<br>
+ <b>Trainer:</b> ${trainer}<br>
+ <b>Slot:</b> ${selectedSlot}`;
+}
+
+function goTop(){
+ document.getElementById("qrPage").style.display="none";
+ document.getElementById("bookingForm").style.display="block";
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function shareWebsite(){
+ if(navigator.share){
+   navigator.share({
+     title: 'Power-Core GYM',
+     text: 'Check out this awesome gym!',
+     url: window.location.href
+   });
+ } else {
+   alert("Your browser does not support the share feature. Copy the URL manually: " + window.location.href);
+ }
+}
+</script>
+
+</body>
+</html> As this code add to file for helthsertificat.  in booking system last
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Power-Core GYM</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  background:linear-gradient(rgba(15,23,42,.85),rgba(15,23,42,.85)),
+  url("https://images.unsplash.com/photo-1599058917212-d750089bc07a?auto=format&fit=crop&w=1600&q=80");
+  background-size:cover;
+  background-attachment:fixed;
+  color:white;
+}
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px 40px;
+  background:rgba(2,6,23,.95);
+  position:sticky;
+  top:0;
+}
+.logo{font-size:22px;font-weight:700}
+.logo span{color:#ef4444}
+nav a{color:white;text-decoration:none;margin-left:20px}
+nav a:hover{color:#ef4444}
+
+/* Header buttons */
+nav .header-btn{
+  margin-left:15px;
+  padding:6px 12px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  background:#22c55e;
+  color:white;
+  font-weight:500;
+  transition:0.3s;
+}
+nav .header-btn:hover{
+  background:#16a34a;
+}
+nav .header-btn.share{
+  background:#3b82f6;
+}
+nav .header-btn.share:hover{
+  background:#2563eb;
+}
+
+.section{padding:70px 10%}
+h1{text-align:center}
+
+.buttons{
+  display:flex;justify-content:center;gap:15px;flex-wrap:wrap;
+}
+.buttons button{
+  padding:10px 22px;border:none;border-radius:25px;
+  background:#1e293b;color:white;cursor:pointer;
+}
+.buttons button.active{background:#ef4444}
+
+.video-box{max-width:900px;margin:30px auto;border-radius:15px;overflow:hidden}
+video{width:100%}
+
+.content,.trainer-card,.booking{
+  background:rgba(30,41,59,.85);
+  padding:25px;border-radius:18px;margin-bottom:30px;
+}
+
+.trainers{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:25px;
+}
+.trainer-card h3{color:#ef4444}
+
+.booking input,.booking select{
+  width:100%;padding:12px;margin-bottom:12px;border:none;border-radius:10px;
+}
+.booking button{
+  width:100%;padding:14px;border:none;border-radius:20px;
+  background:#ef4444;color:white;cursor:pointer;
+  margin-bottom:10px;
+}
+
+.slots{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:10px;margin-bottom:15px;
+}
+.slots button{
+  padding:10px;border:none;border-radius:10px;
+  background:#1e293b;color:white;cursor:pointer;
+}
+.slots button.active{background:#ef4444}
+
+footer{
+  background:rgba(2,6,23,.95);
+  padding:40px 10%;
+  color:#94a3b8;
+}
+
+footer h3{
+  margin-bottom:10px;
+}
+footer p{
+  margin:5px 0;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">🏋️ <span>Power-Core</span> GYM</div>
+  <nav>
+    <a href="#workout">Workout</a>
+    <a href="#trainers">Trainers</a>
+    <a href="#booking">Booking</a>
+    <button class="header-btn" onclick="goTop()">Home</button>
+    <button class="header-btn share" onclick="shareWebsite()">Share</button>
+  </nav>
+</header>
+
+<section id="workout" class="section">
+<h1>Gym Workout Guide</h1>
+<div class="buttons">
+  <button class="active" onclick="changeWorkout('chest',this)">Chest</button>
+  <button onclick="changeWorkout('back',this)">Back</button>
+  <button onclick="changeWorkout('legs',this)">Legs</button>
+  <button onclick="changeWorkout('shoulders',this)">Shoulders</button>
+  <button onclick="changeWorkout('arms',this)">Arms</button>
+</div>
+<div class="video-box">
+  <video id="workoutVideo" controls autoplay muted></video>
+</div>
+<div class="content" id="workoutContent"></div>
+</section>
+
+<section id="trainers" class="section">
+<h1>Our Trainers</h1>
+<div class="trainers">
+  <div class="trainer-card"><h3>Dv Patel</h3><p>Chest Trainer<br><br> 3000 / per 3 month</p></div>
+  <div class="trainer-card"><h3>Suresh Patel</h3><p>Back Trainer<br><br> 2500 / per 3 month</p></div>
+  <div class="trainer-card"><h3>Rahul Verma</h3><p>Legs Trainer<br><br> 5000 / per 3 month</p></div>
+  <div class="trainer-card"><h3>Vishv Patel</h3><p>Shoulders Trainer<br><br> 2800 / per 3 month</p></div>
+  <div class="trainer-card"><h3>Rj Rank</h3><p>Arms Trainer<br><br> 4000 / per 3 month</p></div>
+</div>
+</section>
+
+<section id="booking" class="section">
+<h1>Book Your Training</h1>
+<div class="booking" id="bookingForm">
+  <input id="name" placeholder="Name">
+  <input id="email" placeholder="Email (auto @gmail.com)">
+  <input id="mobile" placeholder="Mobile">
+  <input id="dob" type="date">
+  <input id="weight" placeholder="Weight (kg)">
+  <input id="height" placeholder="Height (cm)">
+  <input id="address" placeholder="Address">
+
+  <label>Select Timing Slot</label>
+  <div class="slots">
+    <button type="button" onclick="selectSlot(this)">5–6 AM</button>
+    <button type="button" onclick="selectSlot(this)">6–7 AM</button>
+    <button type="button" onclick="selectSlot(this)">7–8 AM</button>
+    <button type="button" onclick="selectSlot(this)">6–7 PM</button>
+    <button type="button" onclick="selectSlot(this)">7–8 PM</button>
+  </div>
+
+  <select id="trainer">
+    <option>Select Trainer</option>
+    <option>Dv Patel</option>
+    <option>Suresh Patel</option>
+    <option>Rahul Verma</option>
+    <option>Vishv Patel</option>
+    <option>Rj Rank</option>
+  </select>
+
+  <button type="button" onclick="openQR()">Proceed to Payment</button>
+</div>
+</section>
+
+<!-- QR PAGE -->
+<section class="section" id="qrPage" style="display:none">
+<h1>Payment & Confirmation</h1>
+
+<div class="booking" style="text-align:center">
+
+  <!-- DETAILS FIRST -->
+  <div style="text-align:left;background:rgba(15,23,42,.7);padding:20px;border-radius:15px;margin-bottom:20px">
+    <h3 style="color:#ef4444">Your Booking Details</h3>
+    <p id="summaryText"></p>
+  </div>
+
+  <!-- QR SECOND -->
+  <img src="i1.jpeg" height="150">
+  <div style="margin-top:15px">
+    <img src="i2.jpeg" height="40">
+    <img src="i3.jpeg" height="40">
+    <img src="i4.jpeg" height="40">
+  </div>
+  <p>Show payment receipt at gym desk</p>
+
+  <!-- TOP BUTTON LAST -->
+  <button onclick="goTop()" style="margin-top:20px;background:#22c55e">
+    ⬆ Go to Top
+  </button>
+</div>
+</section>
+
+<footer>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;text-align:left">
+    
+    <!-- About Company -->
+    <div>
+      <h3 style="color:#ef4444">About Company</h3>
+      <p>Power-Core GYM is dedicated to providing world-class fitness training with professional trainers and modern equipment to help you achieve your goals.</p>
+    </div>
+
+    <!-- Address -->
+    <div>
+      <h3 style="color:#ef4444">Address</h3>
+      <p>Ranuja temple behind,<br>Ramranuja -1,<br>Kothariya Main Road,<br>Rajkot - 360002</p>
+    </div>
+
+    <!-- Timing -->
+    <div>
+      <h3 style="color:#ef4444">Timing</h3>
+      <p>5:00 AM - 8:00 PM</p>
+    </div>
+
+    <!-- Contact -->
+    <div>
+      <h3 style="color:#ef4444">Contact</h3>
+      <p>Phone: +91 8849586698<br>Email: Powercore23@gmail.com</p>
+    </div>
+
+    <!-- Owner -->
+    <div>
+      <h3 style="color:#ef4444">Owner</h3>
+      <p>Dhruv AshvinBhai Bhanderi</p>
+    </div>
+
+  </div>
+
+  <div style="text-align:center;margin-top:20px;color:#94a3b8">
+    © 2025 Power-Core GYM. All Rights Reserved.
+  </div>
+</footer>
+
+<script>
+const workoutVideo=document.getElementById("workoutVideo");
+const workoutContent=document.getElementById("workoutContent");
+
+const data={
+ chest:{
+   video:"https://www.shutterstock.com/shutterstock/videos/3887767627/preview/stock-footage-gym-workout-butterfly-exercise-back-view-of-a-middle-aged-caucasian-man-trains-chest-in-the-gym.webm",
+   content:"<h2>Chest Workout</h2><ul><li>Bench Press</li><li>Incline Press</li></ul>"
+ },
+ back:{
+   video:"https://www.shutterstock.com/shutterstock/videos/3471739299/preview/stock-footage-with-a-focus-on-upper-body-strength-a-muscular-man-with-sculpted-back-muscles-pulls-himself-up-on.webm",
+   content:"<h2>Back Workout</h2><ul><li>Pull-ups</li><li>Deadlift</li></ul>"
+ },
+ legs:{
+   video:"https://www.shutterstock.com/shutterstock/videos/3783942433/preview/stock-footage-man-works-out-on-leg-press-machine-driving-foot-plate-to-engage-quadriceps-and-glutes-wearing.webm",
+   content:"<h2>Leg Workout</h2><ul><li>Squats</li><li>Lunges</li></ul>"
+ },
+ shoulders:{
+   video:"https://www.shutterstock.com/shutterstock/videos/3887754863/preview/stock-footage-gym-workout-bench-press-middle-aged-sporty-man-exercising-on-crossover-at-gym-for-arm-chest-and.webm",
+   content:"<h2>Shoulder Workout</h2><ul><li>Shoulder Press</li><li>Lateral Raises</li></ul>"
+ },
+ arms:{
+   video:"https://www.shutterstock.com/shutterstock/videos/3754158825/preview/stock-footage-sportsman-doing-workout-indoors-muscular-shirtless-athlete-is-lifting-dumbbells-in-hands-at-sports.webm",
+   content:"<h2>Arm Workout</h2><ul><li>Biceps</li><li>Triceps</li></ul>"
+ }
+};
+
+function changeWorkout(type,btn){
+ document.querySelectorAll(".buttons button").forEach(b=>b.classList.remove("active"));
+ btn.classList.add("active");
+ workoutVideo.src=data[type].video;
+ workoutContent.innerHTML=data[type].content;
+}
+changeWorkout("chest",document.querySelector(".buttons button"));
+
+let selectedSlot="";
+function selectSlot(btn){
+ document.querySelectorAll(".slots button").forEach(b=>b.classList.remove("active"));
+ btn.classList.add("active");
+ selectedSlot=btn.innerText;
+}
+
+function openQR(){
+ if(!selectedSlot){alert("Select time slot");return;}
+
+ const name=document.getElementById("name").value;
+ let email=document.getElementById("email").value;
+ if(!email.includes("@")) email += "@gmail.com"; // auto-append
+ const mobile=document.getElementById("mobile").value;
+ const dob=document.getElementById("dob").value;
+ const weight=document.getElementById("weight").value;
+ const height=document.getElementById("height").value;
+ const address=document.getElementById("address").value;
+ const trainer=document.getElementById("trainer").value;
+
+ document.getElementById("bookingForm").style.display="none";
+ document.getElementById("qrPage").style.display="block";
+
+ document.getElementById("summaryText").innerHTML=`
+ <b>Name:</b> ${name}<br>
+ <b>Email:</b> ${email}<br>
+ <b>Mobile:</b> ${mobile}<br>
+ <b>DOB:</b> ${dob}<br>
+ <b>Weight:</b> ${weight} kg<br>
+ <b>Height:</b> ${height} cm<br>
+ <b>Address:</b> ${address}<br>
+ <b>Trainer:</b> ${trainer}<br>
+ <b>Slot:</b> ${selectedSlot}`;
+}
+
+function goTop(){
+ document.getElementById("qrPage").style.display="none";
+ document.getElementById("bookingForm").style.display="block";
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function shareWebsite(){
+ if(navigator.share){
+   navigator.share({
+     title: 'Power-Core GYM',
+     text: 'Check out this awesome gym!',
+     url: window.location.href
+   });
+ } else {
+   alert("Your browser does not support the share feature. Copy the URL manually: " + window.location.href);
+ }
+}
+</script>
+
+</body>
+</html> 
